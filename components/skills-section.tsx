@@ -67,26 +67,55 @@ const skillCategories = [
   },
 ]
 
-function SkillBar({ name, level, delay }: { name: string; level: number; delay: number }) {
-  const [animated, setAnimated] = useState(false)
-
-  useEffect(() => {
-    const timer = setTimeout(() => setAnimated(true), delay)
-    return () => clearTimeout(timer)
-  }, [delay])
+function RadialSkill({ name, level, animate }: { name: string; level: number; animate: boolean }) {
+  const radius = 30
+  const circumference = 2 * Math.PI * radius
+  const offset = circumference - (level / 100) * circumference
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <span className="text-sm text-foreground">{name}</span>
-        <span className="font-mono text-xs text-muted-foreground">{level}%</span>
+    <div className="group flex flex-col items-center gap-2">
+      <div className="relative">
+        <svg width="76" height="76" viewBox="0 0 76 76" className="transform -rotate-90">
+          {/* Background ring */}
+          <circle
+            cx="38"
+            cy="38"
+            r={radius}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="4"
+            className="text-secondary"
+          />
+          {/* Progress ring */}
+          <circle
+            cx="38"
+            cy="38"
+            r={radius}
+            fill="none"
+            stroke="url(#skillGradient)"
+            strokeWidth="4"
+            strokeLinecap="round"
+            strokeDasharray={circumference}
+            strokeDashoffset={animate ? offset : circumference}
+            className="transition-all duration-1000 ease-out"
+            style={{
+              filter: animate ? "drop-shadow(0 0 6px rgba(45, 212, 191, 0.4))" : "none",
+            }}
+          />
+          <defs>
+            <linearGradient id="skillGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor="#2dd4bf" />
+              <stop offset="100%" stopColor="#06b6d4" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <span className="text-sm font-bold font-mono text-foreground">{level}%</span>
+        </div>
       </div>
-      <div className="h-1.5 overflow-hidden rounded-full bg-secondary">
-        <div
-          className="h-full rounded-full bg-primary transition-all duration-1000 ease-out"
-          style={{ width: animated ? `${level}%` : "0%" }}
-        />
-      </div>
+      <span className="text-xs text-muted-foreground text-center transition-colors duration-300 group-hover:text-primary max-w-[80px]">
+        {name}
+      </span>
     </div>
   )
 }
@@ -109,12 +138,11 @@ export default function SkillsSection() {
   return (
     <section ref={ref} id="skills" className="relative mx-auto max-w-5xl px-6 py-32">
       <div
-        className={`transition-all duration-700 ${
-          visible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
-        }`}
+        className={`transition-all duration-700 ${visible ? "translate-y-0 opacity-100" : "translate-y-12 opacity-0"
+          }`}
       >
         <div className="mb-4 flex items-center gap-3">
-          <div className="h-px w-12 bg-primary" />
+          <div className="h-px w-12 bg-gradient-to-r from-primary to-cyan-500" />
           <span className="font-mono text-sm tracking-widest text-primary uppercase">
             Skills
           </span>
@@ -129,11 +157,15 @@ export default function SkillsSection() {
           {skillCategories.map((category, ci) => (
             <div
               key={category.title}
-              className="rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm transition-all duration-500 hover:border-primary/30 hover:shadow-[0_0_30px_rgba(45,212,191,0.05)]"
-              style={{ transitionDelay: `${ci * 100}ms` }}
+              className="glow-card shimmer rounded-xl border border-border bg-card/50 p-6 backdrop-blur-sm"
+              style={{
+                transitionDelay: `${ci * 100}ms`,
+                opacity: visible ? 1 : 0,
+                transform: visible ? "translateY(0)" : "translateY(20px)",
+              }}
             >
               <div className="mb-6 flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary transition-all duration-300 group-hover:animate-pulse">
                   {category.icon}
                 </div>
                 <h3 className="text-lg font-semibold text-foreground">
@@ -141,13 +173,13 @@ export default function SkillsSection() {
                 </h3>
               </div>
 
-              <div className="space-y-4">
+              <div className="flex flex-wrap justify-around gap-4">
                 {category.skills.map((skill, si) => (
-                  <SkillBar
+                  <RadialSkill
                     key={skill.name}
                     name={skill.name}
                     level={skill.level}
-                    delay={visible ? (ci * 200 + si * 100) : 99999}
+                    animate={visible}
                   />
                 ))}
               </div>
