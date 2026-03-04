@@ -90,7 +90,7 @@ export default function AboutSection() {
         <div className="grid gap-12 md:grid-cols-2">
           <div className="space-y-6 text-base leading-relaxed text-muted-foreground">
             <p>
-              I am a 3rd year student in Artificial Intelligence at the{" "}
+              I am a 3rd year student in Data Science and AI at the{" "}
               <span className="text-foreground font-medium">
                 National Polytechnic School of Algiers (ENP)
               </span>
@@ -98,7 +98,7 @@ export default function AboutSection() {
             </p>
             <p>
               My journey in AI started with a deep curiosity about how machines can learn from data.
-              Today, I specialize in data science and machine learning, leveraging
+              Today, I specialize in data science and AI , leveraging
               the Python ecosystem to extract insights and build predictive models.
             </p>
             <p>
