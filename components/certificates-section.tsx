@@ -4,46 +4,18 @@ import { useEffect, useRef, useState, useCallback } from "react"
 
 const certificates = [
   {
-    title: "Introduction to Python",
+    title: "Python Data Fundamentals",
     provider: "DataCamp",
+    category: "Data Science",
+    description: "Fundamentals of Python programming including Data Manipulation with pandas Statistics in Python , exploratory Data Analysis in Python and Data Visualization with Seaborn",
+    url: "https://www.datacamp.com/completed/statement-of-accomplishment/track/a263868e3a80bfcbae26a99011ad133c7c3b9a36",
+  },
+  {
+    title: "introduction to Python",
+    provider: "kaggle",
     category: "Programming",
-    description: "Fundamentals of Python programming including data types, control flow, and functions.",
-    url: "https://www.datacamp.com/",
-  },
-  {
-    title: "Intermediate Python",
-    provider: "DataCamp",
-    category: "Programming",
-    description: "Advanced Python concepts including Matplotlib, dictionaries, pandas DataFrames, and logic.",
-    url: "https://www.datacamp.com/",
-  },
-  {
-    title: "Introduction to Data Science in Python",
-    provider: "DataCamp",
-    category: "Data Science",
-    description: "Core data science concepts using Python with real-world datasets.",
-    url: "https://www.datacamp.com/",
-  },
-  {
-    title: "Data Manipulation with pandas",
-    provider: "DataCamp",
-    category: "Data Science",
-    description: "Transforming, aggregating, and manipulating data using the pandas library.",
-    url: "https://www.datacamp.com/",
-  },
-  {
-    title: "Introduction to Statistics in Python",
-    provider: "DataCamp",
-    category: "Statistics",
-    description: "Statistical thinking and analysis with Python, covering probability and distributions.",
-    url: "https://www.datacamp.com/",
-  },
-  {
-    title: "Joining Data with pandas",
-    provider: "DataCamp",
-    category: "Data Science",
-    description: "Combining and merging datasets using advanced pandas techniques.",
-    url: "https://www.datacamp.com/",
+    description: " intoduction to Python programming including data types, control flow, and functions",
+    url: "https://www.kaggle.com/amirboughomd",
   },
 ]
 
@@ -119,8 +91,8 @@ export default function CertificatesSection() {
               <span className="text-muted-foreground">learning.</span>
             </h2>
             <p className="max-w-xl text-muted-foreground leading-relaxed">
-              I believe in lifelong learning. Here are some of the certifications I have earned
-              through DataCamp to solidify my data science and Python expertise.
+              Here are some of the certifications I have earned
+              through DataCamp and kaggle to solidify my data science and Python expertise.
             </p>
           </div>
           <div className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 self-start sm:self-auto">
