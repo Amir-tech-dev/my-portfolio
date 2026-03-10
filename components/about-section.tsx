@@ -80,10 +80,9 @@ export default function AboutSection() {
           <span className="text-muted-foreground">from data.</span>
         </h2>
 
-        {/* Stats Row */}
         <div className="mb-12 grid grid-cols-3 gap-6 rounded-xl border border-border bg-card/30 p-6 backdrop-blur-sm">
           <AnimatedCounter target={3} suffix="rd" label="Year Student" />
-          <AnimatedCounter target={6} suffix="+" label="Certificates" />
+          <AnimatedCounter target={2} suffix="" label="Certificates" />
           <AnimatedCounter target={1} suffix="" label="Internship" />
         </div>
 

@@ -75,9 +75,9 @@ export default function ExperienceSection() {
               </div>
 
               <p className="mb-6 leading-relaxed text-muted-foreground">
-                Introduced to the practical applications of Artificial Intelligence and Machine Learning
-                in the telecommunications industry. Gained hands-on experience working with real-world datasets
-                and understanding how AI-driven solutions are deployed in enterprise environments.
+                Discovered the Big Data and AI ecosystem applied to telecommunications data processing (CDR).
+                Gained hands-on experience with API tools, infrastructure virtualization, and implementing
+                machine learning models for predictive tasks.
               </p>
 
               <div className="space-y-3">
@@ -86,11 +86,11 @@ export default function ExperienceSection() {
                 </h4>
                 <ul className="space-y-2">
                   {[
-                    "Exposure to AI/ML applications in telecommunications",
-                    "Working with real-world production datasets",
-                    "Understanding ML model deployment pipelines",
-                    "Collaboration with data engineering teams",
-                    "Introduction to enterprise AI infrastructure",
+                    "Explored Big Data ecosystems (Hadoop, HDFS, Spark, Hive)",
+                    "Worked with API & monitoring tools (Postman, Swagger, PM2, Prometheus)",
+                    "Discovered enterprise IT infrastructure principles (Virtualization, VPN, WAF)",
+                    "Created data visualizations using Power BI",
+                    "Implemented ML models (Linear Regression, Decision Trees, Random Forest)",
                   ].map((item, i) => (
                     <li
                       key={item}
@@ -119,7 +119,7 @@ export default function ExperienceSection() {
               </div>
 
               <div className="mt-6 flex flex-wrap gap-2">
-                {["Python", "Machine Learning", "Data Analysis", "AI Infrastructure", "Telecommunications"].map(
+                {["Machine Learning", "Hadoop", "Spark", "Power BI", "APIs", "Scikit-learn"].map(
                   (tag) => (
                     <span
                       key={tag}

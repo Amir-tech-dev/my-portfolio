@@ -4,55 +4,42 @@ import { useEffect, useRef, useState } from "react"
 
 const projects = [
     {
-        title: "Customer Churn Prediction",
-        description: "Built a machine learning pipeline to predict customer churn in telecom using scikit-learn. Achieved 89% accuracy with feature engineering and ensemble methods.",
-        tags: ["Python", "Scikit-learn", "Pandas", "EDA"],
+        title: "Boston Housing Price Prediction",
+        description: "Implemented a Linear Regression model to predict house prices based on various features. Included data preprocessing with StandardScaler.",
+        tags: ["Python", "Scikit-learn", "Regression", "Pandas"],
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+                <path d="M3 3v18h18" />
+                <path d="m19 9-5 5-4-4-3 3" />
             </svg>
         ),
-        featured: true,
+        featured: false,
         gradient: "from-primary/20 to-cyan-500/20",
     },
     {
-        title: "Sentiment Analysis NLP",
-        description: "Developed a Natural Language Processing model for sentiment classification on product reviews using TF-IDF and Naive Bayes.",
-        tags: ["Python", "NLP", "NLTK", "Machine Learning"],
+        title: "Iris Flower Classification",
+        description: "Developed a classification model to identify Iris species using Decision Trees and Random Forest. Evaluated model accuracy and feature importance.",
+        tags: ["Python", "Classification", "Random Forest", "Machine Learning"],
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+                <path d="m12 16 4-4-4-4-4 4z" />
             </svg>
         ),
         featured: false,
         gradient: "from-blue-500/20 to-indigo-500/20",
     },
     {
-        title: "Data Visualization Dashboard",
-        description: "Interactive data dashboard for exploring and visualizing large datasets with Matplotlib, Seaborn, and Plotly.",
-        tags: ["Python", "Matplotlib", "Seaborn", "Plotly"],
+        title: "SMS Spam Detection",
+        description: "Built a text classification system to detect spam messages. Utilized One-Hot Encoding and data preprocessing techniques before model training.",
+        tags: ["Python", "NLP", "Classification", "Data Preprocessing"],
         icon: (
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="18" y1="20" x2="18" y2="10" />
-                <line x1="12" y1="20" x2="12" y2="4" />
-                <line x1="6" y1="20" x2="6" y2="14" />
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
             </svg>
         ),
         featured: false,
         gradient: "from-emerald-500/20 to-teal-500/20",
-    },
-    {
-        title: "Exploratory Data Analysis",
-        description: "Comprehensive EDA on real-world datasets to uncover patterns, correlations, and insights for data-driven decision making.",
-        tags: ["Python", "Pandas", "NumPy", "Statistics"],
-        icon: (
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-            </svg>
-        ),
-        featured: false,
-        gradient: "from-amber-500/20 to-orange-500/20",
     },
 ]
 
@@ -89,11 +76,11 @@ export default function ProjectsSection() {
 
                 <div className="mb-12 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
                     <h2 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-                        Featured<br />
-                        <span className="text-muted-foreground">work.</span>
+                        Recent<br />
+                        <span className="text-muted-foreground">projects.</span>
                     </h2>
                     <p className="max-w-sm text-sm text-muted-foreground leading-relaxed">
-                        A selection of AI & data science projects showcasing my skills in machine learning, data analysis, and visualization.
+                        A selection of AI & data science exercises showcasing my skills in machine learning algorithms and data preprocessing.
                     </p>
                 </div>
 
