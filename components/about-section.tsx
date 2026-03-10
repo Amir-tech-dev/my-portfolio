@@ -79,11 +79,15 @@ export default function AboutSection() {
           Building intelligence<br />
           <span className="text-muted-foreground">from data.</span>
         </h2>
-
-        <div className="mb-12 grid grid-cols-3 gap-6 rounded-xl border border-border bg-card/30 p-6 backdrop-blur-sm">
-          <AnimatedCounter target={3} suffix="rd" label="Year Student" />
-          <AnimatedCounter target={2} suffix="" label="Certificates" />
-          <AnimatedCounter target={1} suffix="" label="Internship" />
+        <div className="mb-12 grid grid-cols-2 gap-6 rounded-xl border border-border bg-card/30 p-6 backdrop-blur-sm">
+          <div className="text-center">
+            <div className="text-3xl font-bold text-gradient font-mono">3rd</div>
+            <div className="mt-1 text-xs text-muted-foreground tracking-wide uppercase">Year Student</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl font-bold text-gradient font-mono">2</div>
+            <div className="mt-1 text-xs text-muted-foreground tracking-wide uppercase">Certificates</div>
+          </div>
         </div>
 
         <div className="grid gap-12 md:grid-cols-2">
