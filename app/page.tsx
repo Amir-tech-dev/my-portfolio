@@ -1,12 +1,14 @@
+import dynamic from "next/dynamic"
 import HeroSceneWrapper from "@/components/hero-scene-wrapper"
 import HeroContent from "@/components/hero-content"
-import AboutSection from "@/components/about-section"
-import SkillsSection from "@/components/skills-section"
-import ExperienceSection from "@/components/experience-section"
-//import ProjectsSection from "@/components/projects-section"
-import CertificatesSection from "@/components/certificates-section"
-import ContactSection, { Footer } from "@/components/contact-section"
 import Navigation from "@/components/navigation"
+
+const AboutSection = dynamic(() => import("@/components/about-section"))
+const SkillsSection = dynamic(() => import("@/components/skills-section"))
+const ExperienceSection = dynamic(() => import("@/components/experience-section"))
+const CertificatesSection = dynamic(() => import("@/components/certificates-section"))
+const ContactSection = dynamic(() => import("@/components/contact-section").then(mod => ({ default: mod.default })))
+const Footer = dynamic(() => import("@/components/contact-section").then(mod => ({ default: mod.Footer })))
 
 export default function Page() {
   return (

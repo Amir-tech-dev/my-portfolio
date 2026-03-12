@@ -38,9 +38,16 @@ export default function Navigation() {
 
   useEffect(() => {
     setMounted(true)
+    let ticking = false
     const onScroll = () => {
-      setScrolled(window.scrollY > 50)
-      updateActiveSection()
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 50)
+          updateActiveSection()
+          ticking = false
+        })
+      }
     }
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)

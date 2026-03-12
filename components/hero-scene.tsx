@@ -2,17 +2,32 @@
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import { MeshDistortMaterial, MeshWobbleMaterial } from "@react-three/drei"
-import { useRef, useMemo, useState, useEffect, Suspense } from "react"
+import { useRef, useMemo, useState, useEffect, useCallback, Suspense } from "react"
 import { useTheme } from "next-themes"
 import * as THREE from "three"
 
+// Reusable Object3D to avoid per-frame allocation
+const _dummy = new THREE.Object3D()
+
 function useScrollProgress() {
+  const scrollRef = useRef(0)
   const [scrollY, setScrollY] = useState(0)
 
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight
-      setScrollY(maxScroll > 0 ? window.scrollY / maxScroll : 0)
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(() => {
+          const maxScroll = document.documentElement.scrollHeight - window.innerHeight
+          const val = maxScroll > 0 ? window.scrollY / maxScroll : 0
+          if (Math.abs(val - scrollRef.current) > 0.001) {
+            scrollRef.current = val
+            setScrollY(val)
+          }
+          ticking = false
+        })
+      }
     }
     window.addEventListener("scroll", handleScroll, { passive: true })
     return () => window.removeEventListener("scroll", handleScroll)
@@ -21,12 +36,25 @@ function useScrollProgress() {
   return scrollY
 }
 
+function useIsVisible() {
+  const [isVisible, setIsVisible] = useState(true)
+
+  useEffect(() => {
+    const handleVisibility = () => setIsVisible(!document.hidden)
+    document.addEventListener("visibilitychange", handleVisibility)
+    return () => document.removeEventListener("visibilitychange", handleVisibility)
+  }, [])
+
+  return isVisible
+}
+
 function DataNodes({ scrollProgress }: { scrollProgress: number }) {
   const groupRef = useRef<THREE.Group>(null!)
   const nodesRef = useRef<THREE.InstancedMesh>(null!)
   const linesRef = useRef<THREE.LineSegments>(null!)
+  const isVisible = useIsVisible()
 
-  const nodeCount = 60
+  const nodeCount = 40
   const { positions, connections } = useMemo(() => {
     const pos: THREE.Vector3[] = []
     const conn: number[] = []
@@ -39,7 +67,6 @@ function DataNodes({ scrollProgress }: { scrollProgress: number }) {
         )
       )
     }
-    // Create connections between nearby nodes
     for (let i = 0; i < nodeCount; i++) {
       for (let j = i + 1; j < nodeCount; j++) {
         if (pos[i].distanceTo(pos[j]) < 2.5) {
@@ -51,25 +78,26 @@ function DataNodes({ scrollProgress }: { scrollProgress: number }) {
   }, [])
 
   useFrame((state) => {
+    if (!isVisible) return
+
     if (groupRef.current) {
       groupRef.current.rotation.y = state.clock.elapsedTime * 0.05 + scrollProgress * Math.PI * 2
       groupRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.03) * 0.2 + scrollProgress * 0.5
     }
 
     if (nodesRef.current) {
-      const dummy = new THREE.Object3D()
       const time = state.clock.elapsedTime
       for (let i = 0; i < nodeCount; i++) {
         const p = positions[i]
-        dummy.position.set(
+        _dummy.position.set(
           p.x + Math.sin(time * 0.5 + i) * 0.15,
           p.y + Math.cos(time * 0.3 + i * 0.5) * 0.15,
           p.z + Math.sin(time * 0.4 + i * 0.3) * 0.1
         )
         const scale = 0.04 + Math.sin(time + i) * 0.02
-        dummy.scale.setScalar(scale)
-        dummy.updateMatrix()
-        nodesRef.current.setMatrixAt(i, dummy.matrix)
+        _dummy.scale.setScalar(scale)
+        _dummy.updateMatrix()
+        nodesRef.current.setMatrixAt(i, _dummy.matrix)
       }
       nodesRef.current.instanceMatrix.needsUpdate = true
     }
@@ -115,7 +143,7 @@ function DataNodes({ scrollProgress }: { scrollProgress: number }) {
   return (
     <group ref={groupRef}>
       <instancedMesh ref={nodesRef} args={[undefined, undefined, nodeCount]}>
-        <sphereGeometry args={[1, 16, 16]} />
+        <sphereGeometry args={[1, 8, 8]} />
         <meshStandardMaterial color="#2dd4bf" emissive="#2dd4bf" emissiveIntensity={2} />
       </instancedMesh>
       <lineSegments ref={linesRef} geometry={lineGeometry}>
@@ -127,8 +155,10 @@ function DataNodes({ scrollProgress }: { scrollProgress: number }) {
 
 function PythonLogo({ scrollProgress }: { scrollProgress: number }) {
   const groupRef = useRef<THREE.Group>(null!)
+  const isVisible = useIsVisible()
 
   useFrame((state) => {
+    if (!isVisible) return
     if (groupRef.current) {
       groupRef.current.rotation.y = state.clock.elapsedTime * 0.2 + scrollProgress * Math.PI * 0.6
       groupRef.current.rotation.z = Math.sin(state.clock.elapsedTime * 0.2) * 0.08
@@ -139,7 +169,7 @@ function PythonLogo({ scrollProgress }: { scrollProgress: number }) {
   return (
     <group ref={groupRef} position={[0, 0, 0]}>
       <mesh>
-        <sphereGeometry args={[0.65, 32, 32]} />
+        <sphereGeometry args={[0.65, 16, 16]} />
         <meshStandardMaterial
           color="#3776ab"
           emissive="#3776ab"
@@ -149,7 +179,7 @@ function PythonLogo({ scrollProgress }: { scrollProgress: number }) {
         />
       </mesh>
       <mesh rotation={[Math.PI / 2, 0, 0]}>
-        <torusGeometry args={[1.2, 0.06, 16, 96]} />
+        <torusGeometry args={[1.2, 0.06, 8, 48]} />
         <meshStandardMaterial
           color="#ffd43b"
           emissive="#ffd43b"
@@ -159,7 +189,7 @@ function PythonLogo({ scrollProgress }: { scrollProgress: number }) {
         />
       </mesh>
       <mesh rotation={[0, 0, Math.PI / 2]}>
-        <torusGeometry args={[1.2, 0.06, 16, 96]} />
+        <torusGeometry args={[1.2, 0.06, 8, 48]} />
         <meshStandardMaterial
           color="#2dd4bf"
           emissive="#2dd4bf"
@@ -182,8 +212,10 @@ function PythonLogo({ scrollProgress }: { scrollProgress: number }) {
 
 function FloatingShapes({ scrollProgress }: { scrollProgress: number }) {
   const shapes = useRef<THREE.Group>(null!)
+  const isVisible = useIsVisible()
 
   useFrame((state) => {
+    if (!isVisible) return
     if (shapes.current) {
       shapes.current.children.forEach((child, i) => {
         child.rotation.x = state.clock.elapsedTime * (0.1 + i * 0.05) + scrollProgress * 2
@@ -265,8 +297,10 @@ export default function HeroScene() {
     <div className="fixed inset-0 -z-10">
       <Canvas
         camera={{ position: [0, 0, 7], fov: 60 }}
-        gl={{ antialias: true, alpha: true }}
-        dpr={[1, 2]}
+        gl={{ antialias: false, alpha: true, powerPreference: 'high-performance' }}
+        dpr={[1, 1.5]}
+        frameloop="always"
+        performance={{ min: 0.5 }}
       >
         <Suspense fallback={null}>
           <Scene scrollProgress={scrollProgress} isDark={isDark} />

@@ -6,8 +6,8 @@ import FaviconUpdater from '@/components/favicon-updater'
 
 import './globals.css'
 
-const _inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
-const _jetbrains = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains' })
+const _inter = Inter({ subsets: ['latin'], variable: '--font-inter', display: 'swap' })
+const _jetbrains = JetBrains_Mono({ subsets: ['latin'], variable: '--font-jetbrains', display: 'swap' })
 
 export const metadata: Metadata = {
   title: 'BOUGHOMD Amir | AI & Data Science Portfolio',
